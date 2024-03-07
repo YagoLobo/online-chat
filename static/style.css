@@ -1,0 +1,12 @@
+.messages{
+    list-style: none;
+}
+
+div {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 40vh;
+    margin: auto;
+    width: 200px;
+}
