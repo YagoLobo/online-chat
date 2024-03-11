@@ -1,37 +1,21 @@
-<html>
 <!DOCTYPE html>
-   <html lang="en">
-   <head>
-       <meta charset="UTF-8">
-       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-       <title>Chat em Tempo Real</title>
-       <link rel="stylesheet" href="{{  url_for('static', filename='style.css')  }}" />
-   </head>
-   <body>
-    <div>
-        <ul id="messages" class="messages"></ul>
-        <form id="form" action="">
-        <input id="input" autocomplete="off" /><button>Enviar</button>
-        </form>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat em Tempo Real</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+    <div class="container">
+        <h1 class="title-login">Login</h1>
+        <div>
+            <form action="/chat" method="get" class="username-container">
+                <label for="username" class="username-text">Digite seu nome:</label>
+                <input type="text" name="username" required class="username-input">
+                <button type="submit" class="button-send-username">Enviar</button>
+            </form>
+        </div>
     </div>
-
-
-       <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js"></script>
-       <script>
-           var socket = io.connect('http://' + document.domain + ':' + location.port);
-
-           socket.on('message', function(msg) {
-               var ul = document.getElementById('messages');
-               var li = document.createElement('li');
-               li.appendChild(document.createTextNode("message: " + msg));
-               ul.appendChild(li);
-           });
-
-           document.getElementById('form').onsubmit = function() {
-               socket.emit('message', document.getElementById('input').value);
-               document.getElementById('input').value = '';
-               return false;
-           };
-       </script>
-   </body>
+</body>
 </html>

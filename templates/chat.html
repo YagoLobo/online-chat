@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat em Tempo Real - {{ username }}</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+            socket.on('message', function (data) {
+                var chatBox = document.getElementById('chat-box');
+                var messageElement = document.createElement('p');
+                messageElement.innerHTML = `<span>${data.username}</span>` + ': ' + data.message;
+                chatBox.appendChild(messageElement);
+            });
+            
+            document.getElementById('message-form').addEventListener('submit', function (e) {
+                e.preventDefault();
+                var messageInput = document.getElementById('message-input');
+                var message = messageInput.value;
+                socket.emit('message', { 'username': '{{ username }}', 'message': message });
+                messageInput.value = '';
+            });
+        });
+    </script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1 class="chat-title">Chat</h1>
+        <div id="chat-box" class="chat-box"></div>
+        <form id="message-form" autocomplete="off" class="message-form">
+            <input type="text" id="message-input" required class="message-input">
+            <button type="submit" class="submit-message">Enviar</button>
+        </form>
+    </div>
+</body>
+</html>
